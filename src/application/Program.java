@@ -1,32 +1,33 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
-import entities.Circle;
-import entities.Rectangle;
-import entities.Shape;
 
 public class Program {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
+        List<Integer> myInts = Arrays.asList(1, 2, 3, 4);
+        List<Double> myDoubles = Arrays.asList(3.14, 6.28);
+        List<Object> myObjs = new ArrayList<Object>();
+        copy(myInts, myObjs);    // Chamada do método copy, passando as listas myInts e myObjs como argumentos.
+        printList(myObjs); 		 // Chamada do método printList, passando a lista myObjs como argumento.
+        copy(myDoubles, myObjs); // Chamada do método copy, passando as listas myDoubles e myObjs como argumentos.
+        printList(myObjs);
+    }
 
-		List<Shape> myShapes = new ArrayList<>();
-		myShapes.add(new Rectangle(3.0, 2.0));
-		myShapes.add(new Circle(2.0));
+    // O método copy recebe como argumento uma Lista que seja qualquer subtipo de Number.
+    // O método copy recebe como argumento uma Lista de qualquer tipo que possa ser um supertipo de Number.
+    public static void copy(List<? extends Number> origem, List<? super Number> destino) { // Os parâmetros aqui recebidos são curingas delimitados.
+        for (Number number : origem) { // Usando a covariância.
+            destino.add(number);       // Usando a contravariância.
+        }
+    }
 
-		List<Circle> myCircles = new ArrayList<>();
-		myCircles.add(new Circle(2.0));
-		myCircles.add(new Circle(3.0));
-
-		System.out.println("Total area: " + totalArea(myCircles));
-	}
-
-	public static double totalArea(List<? extends Shape> list) {
-		double sum = 0.0;
-		for (Shape s : list) {
-			sum += s.area();
-		}
-		return sum;
-	}
+    public static void printList(List<?> list) {
+        for (Object obj : list) {
+            System.out.print(obj + " ");
+        }
+        System.out.println();
+    }
 }
